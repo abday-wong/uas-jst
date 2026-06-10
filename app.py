@@ -455,12 +455,12 @@ cached_data = train_and_cache_models()
 
 # Title Banner
 st.write("""
-<div style="text-align: center; padding: 25px; border-bottom: 2px solid #ff007f; margin-bottom: 30px;">
-    <h1 style="margin: 0; font-size: 42px; font-weight: 800; color: #ff007f;">VIBESYNC: SOCIAL BATTERY & MOOD OPTIMIZER</h1>
-    <p style="font-size: 18px; color: #a0aec0; margin-top: 10px;">
+<div style="text-align: center; padding: clamp(15px, 4vw, 25px) 10px; border-bottom: 2px solid #ff007f; margin-bottom: 25px;">
+    <h1 style="margin: 0; font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; color: #ff007f; line-height: 1.2;">VIBESYNC: SOCIAL BATTERY & MOOD OPTIMIZER</h1>
+    <p style="font-size: clamp(0.9rem, 2.5vw, 1.1rem); color: #a0aec0; margin-top: 10px; line-height: 1.4;">
         Asisten Klasifikasi Suasana Hati & Prediksi Kelelahan Sosial Berbasis JST (Adaline & LVQ)
     </p>
-    <span style="background-color: #ff007f; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase;">
+    <span style="background-color: #ff007f; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: clamp(10px, 2vw, 11px); font-weight: bold; text-transform: uppercase;">
         Tugas Akhir Jaringan Saraf Tiruan (JST) - Adaline & LVQ
     </span>
 </div>
@@ -506,21 +506,21 @@ tab_dashboard, tab_charts = st.tabs([
 with tab_dashboard:
     # Onboarding Guide for User
     st.markdown("""
-    <div style="background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 25px; margin-bottom: 30px;">
-        <h3 style="margin-top: 0; color: #ff007f;">💡 Bagaimana Cara Kerja Aplikasi Ini?</h3>
-        <p style="font-size: 14px; margin-bottom: 15px;">
+    <div style="background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: clamp(15px, 3vw, 25px); margin-bottom: 30px;">
+        <h3 style="margin-top: 0; color: #ff007f; font-size: clamp(1.2rem, 3.5vw, 1.6rem);">💡 Bagaimana Cara Kerja Aplikasi Ini?</h3>
+        <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin-bottom: 15px; color: #a0aec0;">
             Aplikasi ini memantau tingkat kesiapan mental dan suasana hati Anda menggunakan dua model <strong>Jaringan Saraf Tiruan (JST)</strong> yang berjalan secara real-time berdasarkan input yang Anda masukkan di panel kiri:
         </p>
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 280px; background-color: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border-left: 4px solid #ff007f;">
-                <strong style="color: #ffffff;">1. Prediksi Social Battery (Model Adaline)</strong>
-                <p style="font-size: 13px; margin-top: 5px; color: #a0aec0;">
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 250px; background-color: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border-left: 4px solid #ff007f;">
+                <strong style="color: #ffffff; font-size: clamp(0.9rem, 2.5vw, 1.05rem);">1. Prediksi Social Battery (Model Adaline)</strong>
+                <p style="font-size: clamp(0.8rem, 2.2vw, 0.9rem); margin-top: 5px; color: #a0aec0; line-height: 1.4;">
                     Memprediksi apakah kapasitas bersosialisasi Anda dalam kondisi <strong>Energized</strong> atau sudah <strong>Drained</strong>. Model ini belajar memisahkan kedua kondisi tersebut berdasarkan data aktivitas harian Anda.
                 </p>
             </div>
-            <div style="flex: 1; min-width: 280px; background-color: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border-left: 4px solid #00f0ff;">
-                <strong style="color: #ffffff;">2. Klasifikasi Mood Vibe (Model LVQ)</strong>
-                <p style="font-size: 13px; margin-top: 5px; color: #a0aec0;">
+            <div style="flex: 1; min-width: 250px; background-color: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border-left: 4px solid #00f0ff;">
+                <strong style="color: #ffffff; font-size: clamp(0.9rem, 2.5vw, 1.05rem);">2. Klasifikasi Mood Vibe (Model LVQ)</strong>
+                <p style="font-size: clamp(0.8rem, 2.2vw, 0.9rem); margin-top: 5px; color: #a0aec0; line-height: 1.4;">
                     Mendeteksi suasana hati Anda ke dalam salah satu dari 4 kategori mood utama. Model ini mencocokkan kondisi energi fisik, hasrat sosial, dan tingkat fokus Anda dengan profil suasana hati ideal.
                 </p>
             </div>
@@ -554,18 +554,18 @@ with tab_dashboard:
         
         if prediction_state == 1:
             st.markdown(f"""
-            <div class="card-battery-high">
-                <h2 style="margin: 0; color: #00e676;">ENERGIZED (+1)</h2>
-                <h3 style="margin: 5px 0 15px 0; color: #ffffff;">Social Battery Anda: {battery_pct}%</h3>
-                <p>Status baterai sosial Anda saat ini aman. Anda memiliki energi yang cukup untuk menghadiri pertemuan sosial, berkolaborasi, atau melanjutkan pekerjaan yang padat.</p>
+            <div class="card-battery-high" style="padding: clamp(15px, 3vw, 20px);">
+                <h2 style="margin: 0; color: #00e676; font-size: clamp(1.3rem, 4vw, 1.7rem);">ENERGIZED (+1)</h2>
+                <h3 style="margin: 5px 0 12px 0; color: #ffffff; font-size: clamp(1.0rem, 3vw, 1.3rem);">Social Battery Anda: {battery_pct}%</h3>
+                <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin: 0; line-height: 1.4;">Status baterai sosial Anda saat ini aman. Anda memiliki energi yang cukup untuk menghadiri pertemuan sosial, berkolaborasi, atau melanjutkan pekerjaan yang padat.</p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
-            <div class="card-battery-low">
-                <h2 style="margin: 0; color: #ff1744;">DRAINED (-1)</h2>
-                <h3 style="margin: 5px 0 15px 0; color: #ffffff;">Social Battery Anda: {battery_pct}%</h3>
-                <p>Status baterai sosial Anda terkuras. Disarankan untuk membatasi interaksi sosial luar, luangkan waktu untuk me-time, dan lakukan pemulihan mental malam ini.</p>
+            <div class="card-battery-low" style="padding: clamp(15px, 3vw, 20px);">
+                <h2 style="margin: 0; color: #ff1744; font-size: clamp(1.3rem, 4vw, 1.7rem);">DRAINED (-1)</h2>
+                <h3 style="margin: 5px 0 12px 0; color: #ffffff; font-size: clamp(1.0rem, 3vw, 1.3rem);">Social Battery Anda: {battery_pct}%</h3>
+                <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin: 0; line-height: 1.4;">Status baterai sosial Anda terkuras. Disarankan untuk membatasi interaksi sosial luar, luangkan waktu untuk me-time, dan lakukan pemulihan mental malam ini.</p>
             </div>
             """, unsafe_allow_html=True)
             
@@ -607,15 +607,15 @@ with tab_dashboard:
         current_mood = moods[predicted_class]
         
         st.markdown(f"""
-        <div style="background-color: rgba(255, 255, 255, 0.03); border: 2px solid {current_mood['color']}; border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);">
-            <h2 style="margin: 0; color: {current_mood['color']};">{current_mood['title'].upper()}</h2>
-            <p style="margin-top: 15px; font-size: 15px;">{current_mood['desc']}</p>
+        <div style="background-color: rgba(255, 255, 255, 0.03); border: 2px solid {current_mood['color']}; border-radius: 16px; padding: clamp(15px, 3vw, 20px); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);">
+            <h2 style="margin: 0; color: {current_mood['color']}; font-size: clamp(1.3rem, 4vw, 1.7rem);">{current_mood['title'].upper()}</h2>
+            <p style="margin-top: 10px; font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin-bottom: 0; line-height: 1.4;">{current_mood['desc']}</p>
         </div>
         """, unsafe_allow_html=True)
         
         # Penjelasan Keputusan UX
         st.markdown(f"""
-        <div style="background-color: rgba(255, 255, 255, 0.01); border: 1px dashed rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 13px;">
+        <div style="background-color: rgba(255, 255, 255, 0.01); border: 1px dashed rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: clamp(0.8rem, 2.2vw, 0.85rem);">
             <strong style="color: #ffffff;">Bagaimana model mengambil keputusan ini?</strong><br/>
             Model LVQ membandingkan koordinat input Anda <strong>[{physical_energy:.2f}, {social_desire:.2f}, {cognitive_focus:.2f}]</strong> dengan 4 pusat profil mood (prototipe). Profil mood <strong>{current_mood['title']}</strong> dideteksi memiliki jarak Euclidean terdekat dengan posisi Anda saat ini.
         </div>
@@ -638,7 +638,7 @@ with tab_dashboard:
             bmu_idx, _ = lvq_model.find_bmu(np.array(act["v"]))
             vibe_info = moods[bmu_idx]
             st.markdown(f"""
-            <div class="activity-badge" style="border-left: 4px solid {vibe_info['color']} !important;">
+            <div class="vibe-badge" style="border-left: 4px solid {vibe_info['color']} !important; padding: clamp(10px, 2.5vw, 15px); font-size: clamp(0.85rem, 2.4vw, 0.95rem);">
                 <strong>{act['name']}</strong> → <span style="color: {vibe_info['color']}; font-weight: bold;">{vibe_info['title']}</span>
             </div>
             """, unsafe_allow_html=True)
