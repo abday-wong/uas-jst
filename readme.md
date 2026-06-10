@@ -10,7 +10,7 @@
 * **Nama Lengkap:** Muhammad Abday Abdul Hafidz
 * **NIM:** 1123150093
 * **Kelas:** TI-23-SE-1
-* **Program Studi:** Rekayasa Perangkat Lunak / Teknik Informatika
+* **Program Studi:** Teknik Informatika (Software Engineering)
 * **Dosen Pengampu:** Tim Dosen Jaringan Saraf Tiruan
 * **Mata Kuliah:** Jaringan Saraf Tiruan (JST)
 
