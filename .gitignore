@@ -1,0 +1,7 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.system_generated/
+*.docx.zip
+app_backup.py
