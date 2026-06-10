@@ -27,7 +27,7 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
     
-    html, body, [class*="css"], .stApp, .stMarkdown, p, span, label, div, select, button {
+    html, body, .stApp, .stMarkdown, p, li, label, .stWidgetLabel {
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
     
