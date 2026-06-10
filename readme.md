@@ -1,66 +1,143 @@
-You are an expert Python developer and AI/ML engineer specializing in Artificial Neural Networks (ANN/JST). I need you to help me build a complete final exam project called "The Zen-Day Optimizer" for my university course on Neural Networks (JST).
+# 📚 Tugas Akhir Jaringan Saraf Tiruan (JST)
+## VibeSync: Social Battery & Mood Optimizer
 
-## PROJECT OVERVIEW
-Build a Python-based daily assistant application that solves real-life daily problems using at least TWO ANN models learned in class. The app must feel like a real, usable application.
+Aplikasi asisten interaktif berbasis web untuk memantau kapasitas sosial (*Social Battery*) dan mengklasifikasikan suasana hati (*Mood Vibe*) harian menggunakan dua model Jaringan Saraf Tiruan (JST) yang dibangun dari nol (*from scratch*) menggunakan **NumPy**.
 
-## MANDATORY REQUIREMENTS
-1. Use **Python** as the primary language
-2. Implement **at least 2 ANN models** from the list below:
-   - Linear Classification: M-P, Hebbian, Perceptron, Adaline
-   - Non-Linear/Complex: Madaline, Backpropagation, Radial Basis Function (RBF)
-   - Unsupervised/Clustering: Kohonen (SOM), Learning Vector Quantization (LVQ), Counter Propagation
-   - Associative Memory: Hopfield Network
-3. Build models **from scratch using NumPy** (no sklearn, no keras, no tensorflow for the core ANN logic)
-4. Use **Streamlit** for the user interface/dashboard
-5. Use **Matplotlib or Seaborn** to visualize the MSE/error curve during training
-6. Every section of code **must have detailed comments** explaining what it does, its input, expected output, and how it works
+---
 
-## GRADING CRITERIA (build with these in mind)
-- Creativity of Solution (20%): Make the problem unique and interesting
-- Code Quality (30%): Clean code, proper NumPy usage, correct algorithm logic
-- Mathematical Analysis (30%): Clearly show weight update formulas, error signal, forward & backward pass logic in code comments
-- Presentation & Demo (20%): App must handle real-time new input data
+### 👤 Identitas Mahasiswa
+* **Nama:** Muhammad Abday Abdul Hafidz
+* **NIM:** 1123150093
+* **Kelas:** TI-23-SE-1
+* **Program Studi:** Rekayasa Perangkat Lunak / Teknik Informatika
 
-## WHAT TO BUILD
-Choose a creative daily-life problem (NOT the exact sleep/coffee example from the slides — be original). Good ideas include things like:
-- Social battery predictor for introverts
-- Burnout early warning system
-- Study session optimizer
-- Focus zone recommender
-- Mood-based music genre classifier
+---
 
-Then implement:
-1. **Model 1**: Choose the most appropriate ANN for classification or pattern recognition
-2. **Model 2**: Choose a second ANN for clustering, regression, or associative memory
-3. **Streamlit UI**: Sidebar inputs, real-time prediction display, result visualization
-4. **MSE/Error curve chart**: Show training convergence using Matplotlib
-5. **Parameter comparison**: Show results when learning rate (η) is changed (e.g., 0.01 vs 0.1 vs 0.5)
+## 📂 1. Deskripsi Proyek
+Dalam ritme kehidupan akademis dan profesional yang padat, mahasiswa sering kali mengalami kelelahan sosial (*social burnout*) tanpa menyadari penurunan kapasitas mental mereka. **VibeSync** hadir sebagai asisten cerdas yang memecahkan masalah ini dengan mengombinasikan dua metode JST untuk analisis harian:
 
-## CODE STRUCTURE REQUIRED
-Organize the code in this order:
-1. Imports and library setup (with install instructions in comments)
-2. ANN Model 1 class — built from scratch with NumPy, fully commented
-3. ANN Model 2 class — built from scratch with NumPy, fully commented
-4. Training data and normalization logic
-5. Streamlit UI layout (sidebar inputs, main panel results)
-6. Training execution with @st.cache_resource
-7. Prediction logic with normalization bridge
-8. Visualization (MSE curve + any clustering/result chart)
-9. Mathematical explanation in comments: show the weight update formula for each model
+1. **Prediksi Kelelahan Sosial (Social Battery):** Menggunakan model **Adaline** untuk memprediksi apakah pengguna berada dalam kondisi prima (**Energized**) atau perlu istirahat (**Drained**) berdasarkan jam tidur, jam bersosialisasi, beban tugas, dan jam me-time.
+2. **Klasifikasi Suasana Hati (Mood Vibe):** Menggunakan model **Learning Vector Quantization (LVQ)** untuk mengklasifikasikan kondisi emosional internal pengguna ke dalam 4 profil mood (*Focused, Calm, Stressed, atau Exhausted*) berdasarkan tingkat energi fisik, hasrat bersosialisasi, dan fokus kognitif.
 
-## ACADEMIC DOCUMENTATION FORMAT (include as docstrings/comments)
-The code comments must cover:
-- Bab I equivalent: Why this daily problem matters
-- Bab II equivalent: Architecture — number of input/hidden/output neurons, activation function used
-- Bab III equivalent: One full manual iteration example (Forward + Backward pass with numbers)
-- Bab IV equivalent: How changing learning rate or epoch count affects accuracy
-- Bab V equivalent: Whether the model successfully solves the problem
+Aplikasi ini dilengkapi dengan visualisasi kurva konvergensi latihan, perbandingan performa laju pembelajaran (*learning rate*), batas keputusan (*decision boundary*) 2D interaktif, serta visualisasi pemetaan koordinat 3D vektor prototipe mood secara real-time.
 
-## OUTPUT FORMAT
-Provide:
-1. The complete `app.py` file — fully working, copy-paste ready
-2. A `requirements.txt` with all needed libraries
-3. Step-by-step run instructions
-4. A brief mathematical explanation (in Bahasa Indonesia) for Bab III of the report, showing one manual forward + backward propagation iteration with example numbers
+---
 
-Start by proposing a creative app concept with the two ANN models you'll use and why, then build the full implementation.
+## 🛠️ 2. Arsitektur & Spesifikasi Model JST
+
+### 2.1 Model 1: Adaline (Adaptive Linear Neuron)
+Adaline adalah jaringan saraf lapis tunggal yang menggunakan fungsi aktivasi linear selama proses pelatihan dan memperbarui bobotnya menggunakan aturan kuadrat terkecil (*Least Mean Squares* / LMS atau aturan Delta).
+* **Input Layer:** 4 neuron input ($x_1$: Kualitas Tidur, $x_2$: Jam Bersosialisasi, $x_3$: Jumlah Tugas Kerja, $x_4$: Jam Me-Time).
+* **Output Layer:** 1 neuron output bipolar ($+1$ untuk *Energized* dan $-1$ untuk *Drained*).
+* **Persamaan Forward Pass (Net Input):**
+  $$net = \sum_{i=1}^{n} (x_i \cdot w_i) + b$$
+* **Pembaruan Bobot & Bias (Aturan Delta):**
+  $$w_i^{(baru)} = w_i^{(lama)} + \frac{\eta}{N} \cdot (y - net) \cdot x_i$$
+  $$b^{(baru)} = b^{(lama)} + \frac{\eta}{N} \cdot \sum (y - net)$$
+  *Dimana $\eta$ adalah learning rate dan $N$ adalah jumlah sampel data.*
+
+### 2.2 Model 2: Learning Vector Quantization (LVQ)
+LVQ adalah metode pembelajaran terawasi (*supervised competitive learning*) yang membagi ruang input ke dalam beberapa kelas menggunakan vektor prototipe (kodebook).
+* **Input Layer:** 3 neuron input ($x_1$: Energi Fisik, $x_2$: Hasrat Bersosialisasi, $x_3$: Fokus Mental).
+* **Output Layer (Prototipe):** 4 neuron kelas representatif:
+  * **Kelas 0:** *Energetic & Focused* (Warna Kuning)
+  * **Kelas 1:** *Calm & Chill* (Warna Sian)
+  * **Kelas 2:** *Anxious & Stressed* (Warna Oranye)
+  * **Kelas 3:** *Exhausted & Gloomy* (Warna Ungu)
+* **Kriteria Pemenang (BMU - Best Matching Unit):** Memilih prototipe $W_c$ dengan jarak Euclidean terkecil ke input $x$:
+  $$d(x, W_j) = \sqrt{\sum_{i=1}^{3} (x_i - w_{ji})^2}$$
+* **Pembaruan Bobot Prototipe Pemenang ($W_c$):**
+  * Jika kelas prototipe pemenang sesuai dengan kelas target ($T_c == y$):
+    $$W_c^{(baru)} = W_c^{(lama)} + \alpha \cdot (x - W_c^{(lama)})$$
+  * Jika kelas prototipe pemenang tidak sesuai dengan kelas target ($T_c \neq y$):
+    $$W_c^{(baru)} = W_c^{(lama)} - \alpha \cdot (x - W_c^{(lama)})$$
+
+---
+
+## 🚀 3. Panduan Penggunaan & Cara Menjalankan
+
+### Langkah 1: Persiapan Lingkungan (Environment Setup)
+Buka terminal dan arahkan ke folder proyek:
+```bash
+cd C:\Users\LENOVO\uas_jst
+```
+Aktifkan virtual environment yang sudah tersedia di Windows:
+* **PowerShell:**
+  ```powershell
+  .\venv\Scripts\Activate.ps1
+  ```
+* **Command Prompt (CMD):**
+  ```cmd
+  .\venv\Scripts\activate.bat
+  ```
+
+### Langkah 2: Instalasi Dependensi
+Pastikan semua library terinstal dengan benar:
+```bash
+pip install -r requirements.txt
+```
+
+### Langkah 3: Menjalankan Aplikasi
+Jalankan dashboard Streamlit dengan perintah:
+```bash
+streamlit run app.py
+```
+Aplikasi akan otomatis terbuka di browser pada alamat: **`http://localhost:8501`**
+
+---
+
+## 📐 4. Pembahasan Matematika: Contoh Perhitungan Manual (UAS Bab III)
+
+### 4.1 Perhitungan Manual Satu Iterasi Adaline
+* **Parameter Awal:**
+  - Input: $x = [0.8, 0.4, 0.2, 0.9]$
+  - Target: $y = 1$ (Energized)
+  - Bobot Awal: $W = [0.1, -0.2, 0.15, 0.3]^T$
+  - Bias Awal: $b = 0.05$
+  - Learning Rate ($\eta$): $0.1$
+
+1. **Forward Pass (Net Input):**
+   $$net = (0.8 \cdot 0.1) + (0.4 \cdot -0.2) + (0.2 \cdot 0.15) + (0.9 \cdot 0.3) + 0.05$$
+   $$net = 0.08 - 0.08 + 0.03 + 0.27 + 0.05 = 0.35$$
+2. **Kalkulasi Error:**
+   $$E = y - net = 1 - 0.35 = 0.65$$
+3. **Pembaruan Bobot & Bias ($\Delta w_i = \eta \cdot E \cdot x_i$):**
+   - $w_1^{(baru)} = 0.1 + (0.1 \cdot 0.65 \cdot 0.8) = 0.1 + 0.052 = 0.152$
+   - $w_2^{(baru)} = -0.2 + (0.1 \cdot 0.65 \cdot 0.4) = -0.2 + 0.026 = -0.174$
+   - $w_3^{(baru)} = 0.15 + (0.1 \cdot 0.65 \cdot 0.2) = 0.15 + 0.013 = 0.163$
+   - $w_4^{(baru)} = 0.3 + (0.1 \cdot 0.65 \cdot 0.9) = 0.3 + 0.0585 = 0.3585$
+   - $b^{(baru)} = 0.05 + (0.1 \cdot 0.65) = 0.05 + 0.065 = 0.115$
+
+---
+
+### 4.2 Perhitungan Manual Satu Iterasi LVQ
+* **Parameter Awal:**
+  - Vektor Input: $x = [0.7, 0.3, 0.8]$ dengan Label Target $y = 0$
+  - Prototipe Awal:
+    - $W_0 = [0.6, 0.2, 0.7]$ (Kelas 0)
+    - $W_1 = [0.3, 0.8, 0.4]$ (Kelas 1)
+    - $W_2 = [0.5, 0.4, 0.9]$ (Kelas 2)
+    - $W_3 = [0.1, 0.1, 0.2]$ (Kelas 3)
+  - Learning Rate ($\alpha$): $0.5$
+
+1. **Hitung Jarak Euclidean ke Seluruh Prototipe:**
+   - $d(x, W_0) = \sqrt{(0.7-0.6)^2 + (0.3-0.2)^2 + (0.8-0.7)^2} = \sqrt{0.03} \approx 0.1732$
+   - $d(x, W_1) = \sqrt{(0.7-0.3)^2 + (0.3-0.8)^2 + (0.8-0.4)^2} = \sqrt{0.57} \approx 0.7550$
+   - $d(x, W_2) = \sqrt{(0.7-0.5)^2 + (0.3-0.4)^2 + (0.8-0.9)^2} = \sqrt{0.06} \approx 0.2449$
+   - $d(x, W_3) = \sqrt{(0.7-0.1)^2 + (0.3-0.1)^2 + (0.8-0.2)^2} = \sqrt{0.76} \approx 0.8718$
+
+   *BMU adalah $W_0$ karena memiliki jarak terkecil ($0.1732$) ke input.*
+
+2. **Pembaruan Bobot BMU:**
+   Karena label kelas $W_0$ (yaitu 0) sama dengan label target ($y = 0$), maka prototipe bergeser mendekati input:
+   $$W_0^{(baru)} = W_0 + \alpha \cdot (x - W_0)$$
+   $$W_0^{(baru)} = [0.6, 0.2, 0.7] + 0.5 \cdot ([0.7, 0.3, 0.8] - [0.6, 0.2, 0.7])$$
+   $$W_0^{(baru)} = [0.6, 0.2, 0.7] + [0.05, 0.05, 0.05] = [0.65, 0.25, 0.75]$$
+
+---
+
+## 🔬 5. Hasil Analisis Pengaruh Parameter (UAS Bab IV)
+Pelatihan model Adaline dengan variasi *learning rate* ($\eta$) memberikan wawasan penting tentang konvergensi bobot:
+* **$\eta = 0.01$ (Terlalu Kecil):** Model stabil, namun laju penurunan MSE sangat lambat. Butuh epoch yang jauh lebih banyak untuk mencapai titik konvergensi minimum.
+* **$\eta = 0.1$ (Optimal):** Model berkonvergensi dengan cepat menuju nilai minimum global tanpa osilasi yang berarti. Ini adalah parameter default yang digunakan.
+* **$\eta = 0.5$ (Terlalu Besar):** Langkah pembaruan bobot melompati titik minimum global. Grafik MSE menunjukkan osilasi naik-turun yang ekstrem dan tidak pernah stabil.
