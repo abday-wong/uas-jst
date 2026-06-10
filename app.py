@@ -639,7 +639,7 @@ with tab_dashboard:
             vibe_info = moods[bmu_idx]
             st.markdown(f"""
             <div class="activity-badge" style="border-left: 4px solid {vibe_info['color']} !important;">
-                <strong>{act['name']}</strong> &rarr; <span style="color: {vibe_info['color']}; font-weight: bold;">{vibe_info['title']}</span>
+                <strong>{act['name']}</strong> → <span style="color: {vibe_info['color']}; font-weight: bold;">{vibe_info['title']}</span>
             </div>
             """, unsafe_allow_html=True)
 
