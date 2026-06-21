@@ -11,7 +11,7 @@
 * **NIM:** 1123150093
 * **Kelas:** TI-23-SE-1
 * **Program Studi:** Teknik Informatika (Software Engineering)
-* **Dosen Pengampu:** Tim Dosen Jaringan Saraf Tiruan
+* **Dosen Pengampu:** Vicky Indrawan, S.T., M.Sc.
 * **Mata Kuliah:** Jaringan Saraf Tiruan (JST)
 
 ---
