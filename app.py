@@ -421,7 +421,6 @@ def generate_genre_dataset():
 # STREAMLIT CACHED TRAINING EXECUTION
 # ==============================================================================
 
-@st.cache_resource
 def train_and_cache_models():
     # 1. Ambil dataset Adaline
     _, X_adaline_train, y_adaline_train, norm_params = generate_music_vibe_dataset()
