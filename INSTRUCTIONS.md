@@ -1,12 +1,12 @@
-# 🧠 VibeSync: Social Battery & Mood Optimizer - Panduan & Pembahasan Matematika
+# 🧠 SoundSync: Music Vibe & Genre Classifier - Panduan & Pembahasan Matematika
 
-Dokumen ini berisi panduan menjalankan aplikasi dan penjelasan matematis lengkap untuk laporan Bab III dalam Bahasa Indonesia.
+Dokumen ini berisi panduan menjalankan aplikasi dan penjelasan matematis lengkap untuk laporan Bab III dalam Bahasa Indonesia dengan studi kasus klasifikasi karakteristik dan genre musik.
 
 ---
 
 ## 🚀 1. Petunjuk Menjalankan Aplikasi
 
-Ikuti langkah-langkah di bawah ini untuk menginstal dependensi dan menjalankan aplikasi dashboard **VibeSync**:
+Ikuti langkah-langkah di bawah ini untuk menginstal dependensi dan menjalankan aplikasi dashboard **SoundSync**:
 
 ### Langkah 1: Persiapan Lingkungan (Environment Setup)
 1. Buka terminal Anda (PowerShell, Command Prompt, atau Terminal VS Code).
@@ -39,29 +39,29 @@ Aplikasi secara otomatis akan terbuka di peramban web Anda pada alamat `http://l
 
 ## 📝 2. Konsep Aplikasi & Integrasi Model JST
 
-Aplikasi **VibeSync** memadukan dua jenis algoritma JST yang dibangun secara manual (*from scratch*) menggunakan **NumPy**:
+Aplikasi **SoundSync** memadukan dua jenis algoritma JST yang dibangun secara manual (*from scratch*) menggunakan **NumPy**:
 1. **Model 1: Adaline (Adaptive Linear Neuron)**
-   - **Peran**: Memprediksi status kelelahan sosial pengguna (*Social Battery*) ke dalam kategori bipolar: *Energized (+1)* atau *Drained (-1)*.
-   - **Input**: Kualitas Tidur (0.1 - 1.0), Durasi Bersosialisasi (Jam), Beban Kerja (Jumlah Tugas), dan Durasi Me-Time (Jam).
-   - **Output**: Persentase kapasitas baterai sosial representatif dan klasifikasi keadaan psikologis sosial harian.
+   - **Peran**: Memprediksi status karakteristik vibe lagu ke dalam kategori bipolar: *Energetic/Upbeat (+1)* atau *Calm/Relaxing (-1)*.
+   - **Input**: Tempo / Danceability (0.1 - 1.0), Kenyaringan / Loudness (dB), Acousticness (0.0 - 1.0), dan Valence / Kegembiraan Lirik (0.0 - 1.0).
+   - **Output**: Persentase energi musik representatif dan klasifikasi vibe akustik.
 2. **Model 2: Learning Vector Quantization (LVQ)**
-   - **Peran**: Mengklasifikasikan suasana hati pengguna (*Mood Vibe*) menjadi salah satu dari 4 kategori utama: *Energetic & Focused*, *Calm & Chill*, *Anxious & Stressed*, dan *Exhausted & Gloomy*.
-   - **Input**: Energi Fisik (0.0 - 1.0), Hasrat Bersosialisasi (0.0 - 1.0), dan Fokus Mental (0.0 - 1.0).
-   - **Output**: Klasifikasi suasana hati harian beserta pemetaan otomatis daftar aktivitas terpilih ke dalam kluster mood tersebut.
+   - **Peran**: Mengklasifikasikan genre lagu menjadi salah satu dari 4 kategori utama: *Pop / Dance*, *Rock / Metal*, *Jazz / Lo-Fi*, dan *EDM / Electronic*.
+   - **Input**: Kerapatan Ketukan / Beat Density (0.0 - 1.0), Distorsi Elektrik / Synth Distortions (0.0 - 1.0), dan Kemenonjolan Vokal / Vocal Prominence (0.0 - 1.0).
+   - **Output**: Klasifikasi genre musik beserta pemetaan otomatis daftar lagu-lagu legendaris ke dalam kluster genre tersebut.
 
 ---
 
-## 📐 3. Pembahasan Matematika Bab III: Manual Iteration (Bahasa Indonesia)
+## 📐 3. Pembahasan Matematika Bab III: Perhitungan Manual (Bahasa Indonesia)
 
 Berikut adalah lampiran perhitungan manual satu langkah perambatan maju (*Forward Pass*) dan satu langkah pembaruan bobot (*Weight Update*) untuk kedua model:
 
 ### 3.1 Perhitungan Manual Adaline
 * **Spesifikasi Awal:**
-  - Input: $x = [0.8, 0.4, 0.2, 0.9]$ (Tidur, Bersosialisasi, Beban Kerja, Me-time)
-  - Target: $y = 1$ (Energized)
-  - Bobot Awal: $W = [0.1, -0.2, 0.15, 0.3]^T$
-  - Bias Awal: $b = 0.05$
-  - Learning Rate ($\eta$): $0.1$
+   - Input: $x = [0.8, 0.4, 0.2, 0.9]$ (Tempo/Danceability, Loudness, Acousticness, Valence)
+   - Target: $y = 1$ (Energetic/Upbeat)
+   - Bobot Awal: $W = [0.1, -0.2, 0.15, 0.3]^T$
+   - Bias Awal: $b = 0.05$
+   - Learning Rate ($\eta$): $0.1$
 
 * **Forward Pass (Net Input):**
   $$net = \sum(x_i \cdot w_i) + b$$
@@ -85,12 +85,12 @@ Berikut adalah lampiran perhitungan manual satu langkah perambatan maju (*Forwar
 
 ### 3.2 Perhitungan Manual LVQ
 * **Spesifikasi Awal:**
-  - Vektor Input: $x = [0.7, 0.3, 0.8]$ dengan Label Kelas Sebenarnya $y = 0$ (Energetic & Focused)
+  - Vektor Input: $x = [0.7, 0.3, 0.8]$ (Beat Density, Guitar Distortions, Vocal Prominence) dengan Label Kelas Sebenarnya $y = 0$ (Pop / Dance)
   - Vektor Prototipe Awal:
-    - $W_0 = [0.6, 0.2, 0.7]$ (Kelas 0)
-    - $W_1 = [0.3, 0.8, 0.4]$ (Kelas 1)
-    - $W_2 = [0.5, 0.4, 0.9]$ (Kelas 2)
-    - $W_3 = [0.1, 0.1, 0.2]$ (Kelas 3)
+    - $W_0 = [0.6, 0.2, 0.7]$ (Kelas 0 - Pop / Dance)
+    - $W_1 = [0.3, 0.8, 0.4]$ (Kelas 1 - Rock / Metal)
+    - $W_2 = [0.5, 0.4, 0.9]$ (Kelas 2 - Jazz / Lo-Fi)
+    - $W_3 = [0.1, 0.1, 0.2]$ (Kelas 3 - EDM)
   - Learning Rate ($\alpha$): $0.5$
 
 * **Mencari Best Matching Unit (BMU) dengan Jarak Euclidean:**

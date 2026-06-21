@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 # Set page configuration with a premium look
 st.set_page_config(
-    page_title="VibeSync: Social Battery & Mood Optimizer - JST Final Exam",
+    page_title="SoundSync: Music Vibe & Genre Classifier - JST Final Exam",
     page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded"
@@ -140,7 +140,7 @@ st.markdown("""
     }
     
     /* Custom Card Styles */
-    .card-battery-high {
+    .card-vibe-high {
         background: rgba(19, 43, 29, 0.35) !important;
         backdrop-filter: blur(16px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
@@ -151,7 +151,7 @@ st.markdown("""
         box-shadow: 0 8px 32px 0 rgba(0, 230, 118, 0.06);
     }
     
-    .card-battery-low {
+    .card-vibe-low {
         background: rgba(48, 19, 24, 0.35) !important;
         backdrop-filter: blur(16px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
@@ -162,7 +162,7 @@ st.markdown("""
         box-shadow: 0 8px 32px 0 rgba(255, 23, 68, 0.06);
     }
     
-    .vibe-badge {
+    .track-badge {
         display: inline-block;
         background-color: rgba(30, 34, 53, 0.45) !important;
         backdrop-filter: blur(10px) !important;
@@ -185,8 +185,8 @@ st.markdown("""
 # MODEL 1: ADALINE (ADAPTIVE LINEAR NEURON) FROM SCRATCH
 # ==============================================================================
 # Deskripsi Matematis & Fungsionalitas:
-# Model ini digunakan untuk memprediksi status Social Battery pengguna
-# (Energized (+1) vs Drained (-1)) berdasarkan parameter input harian.
+# Model ini digunakan untuk memprediksi tipe Vibe Lagu (Energetic (+1) vs Calm (-1))
+# berdasarkan parameter audio teknis harian.
 #
 # Rumus Update Bobot (Delta Rule / Least Mean Squares):
 # 1. Output Net Input (Linear):
@@ -221,7 +221,7 @@ class Adaline:
 
     def predict(self, X):
         """
-        Prediksi kelas bipolar: +1 (Energized) atau -1 (Drained).
+        Prediksi kelas bipolar: +1 (Energetic) atau -1 (Calm).
         """
         net = self.forward(X)
         return np.where(net >= 0.0, 1, -1)
@@ -252,8 +252,8 @@ class Adaline:
 # MODEL 2: LEARNING VECTOR QUANTIZATION (LVQ) FROM SCRATCH
 # ==============================================================================
 # Deskripsi Matematis & Fungsionalitas:
-# Model ini digunakan untuk mengklasifikasikan suasana hati (Mood Vibe)
-# ke dalam 4 kategori berdasarkan profil energi, tingkat sosial, dan fokus mental.
+# Model ini digunakan untuk mengklasifikasikan genre lagu (Genre Vibe)
+# ke dalam 4 kategori berdasarkan profil ketukan, distorsi elektrik, dan vokal.
 #
 # Rumus Update Bobot LVQ:
 # 1. Cari Best Matching Unit (BMU) dengan jarak Euclidean terkecil:
@@ -332,40 +332,40 @@ class LearningVectorQuantization:
 # ==============================================================================
 
 # 1. Membuat data sintetis untuk training Adaline (Model 1)
-# Bipolar labels: +1 (Energized), -1 (Drained)
-def generate_social_battery_dataset():
+# Bipolar labels: +1 (Energetic/Upbeat), -1 (Calm/Relaxing)
+def generate_music_vibe_dataset():
     np.random.seed(42)
     n_samples = 180
     
     # Fitur:
-    # - Sleep Quality (0.0 s/d 1.0)
-    # - Social Hours (Jam, normalisasi 0 s/d 10)
-    # - Tasks Workload (Skala normalisasi 1 s/d 12)
-    # - Me-time / Quiet Hours (Jam, normalisasi 0 s/d 8)
-    sleep = np.random.uniform(0.1, 1.0, n_samples)
-    social_h = np.random.uniform(0.0, 10.0, n_samples)
-    workload = np.random.uniform(1.0, 12.0, n_samples)
-    quiet_h = np.random.uniform(0.0, 8.0, n_samples)
+    # - Tempo / Danceability (0.1 s/d 1.0)
+    # - Loudness (Loudness dalam dB, normalisasi -60 s/d 0)
+    # - Acousticness (Kemurnian instrumen akustik, 0.0 s/d 1.0)
+    # - Valence (Keceriaan emosi lagu, 0.0 s/d 1.0)
+    danceability = np.random.uniform(0.1, 1.0, n_samples)
+    loudness = np.random.uniform(-60.0, 0.0, n_samples)
+    acousticness = np.random.uniform(0.0, 1.0, n_samples)
+    valence = np.random.uniform(0.0, 1.0, n_samples)
     
-    X_raw = np.column_stack((sleep, social_h, workload, quiet_h))
+    X_raw = np.column_stack((danceability, loudness, acousticness, valence))
     
     # Normalisasi Min-Max ke [0, 1]
     norm_params = {
-        'sleep_min': 0.1, 'sleep_max': 1.0,
-        'social_min': 0.0, 'social_max': 10.0,
-        'workload_min': 1.0, 'workload_max': 12.0,
-        'quiet_min': 0.0, 'quiet_max': 8.0
+        'dance_min': 0.1, 'dance_max': 1.0,
+        'loud_min': -60.0, 'loud_max': 0.0,
+        'acoustic_min': 0.0, 'acoustic_max': 1.0,
+        'valence_min': 0.0, 'valence_max': 1.0
     }
     
     X_norm = np.zeros_like(X_raw)
-    X_norm[:, 0] = sleep
-    X_norm[:, 1] = social_h / 10.0
-    X_norm[:, 2] = (workload - 1.0) / 11.0
-    X_norm[:, 3] = quiet_h / 8.0
+    X_norm[:, 0] = danceability
+    X_norm[:, 1] = (loudness + 60.0) / 60.0
+    X_norm[:, 2] = acousticness
+    X_norm[:, 3] = valence
     
     # Hubungan target:
-    # Social battery positif jika sleep & quiet tinggi, negatif jika social & workload tinggi
-    score = 0.55 * X_norm[:, 0] - 0.45 * X_norm[:, 1] - 0.35 * X_norm[:, 2] + 0.45 * X_norm[:, 3]
+    # Lagu berenergi (+1) jika danceability & loudness tinggi, akustik rendah, valence tinggi
+    score = 0.55 * X_norm[:, 0] + 0.45 * X_norm[:, 1] - 0.45 * X_norm[:, 2] + 0.35 * X_norm[:, 3] - 0.3
     # Tambahkan noise
     score += np.random.normal(0, 0.08, n_samples)
     
@@ -375,34 +375,34 @@ def generate_social_battery_dataset():
     return X_raw, X_norm, y, norm_params
 
 # 2. Membuat data sintetis untuk training LVQ (Model 2)
-# Masing-masing data merepresentasikan profil harian untuk 4 kategori mood/vibe
-# Fitur: [Physical Energy, Social Desire, Cognitive Focus]
+# Masing-masing data merepresentasikan profil lagu untuk 4 kategori genre
+# Fitur: [Beat Density, Electric Distortions, Vocal Prominence]
 # Label: 
-#   0: "Energetic & Focused"
-#   1: "Calm & Chill"
-#   2: "Anxious & Stressed"
-#   3: "Exhausted & Gloomy"
-def generate_mood_dataset():
+#   0: "Pop / Dance"
+#   1: "Rock / Metal"
+#   2: "Jazz / Lo-Fi"
+#   3: "EDM / Electronic"
+def generate_genre_dataset():
     np.random.seed(99)
     n_samples = 160
     
     X = []
     y = []
     
-    # Kelas 0: Energetic & Focused (Energi tinggi, Sosial sedang, Fokus tinggi)
-    X.append(np.random.uniform([0.7, 0.2, 0.7], [1.0, 0.6, 1.0], (40, 3)))
+    # Kelas 0: Pop / Dance (Beat density tinggi, Distorsi rendah, Vocal prominence tinggi)
+    X.append(np.random.uniform([0.6, 0.0, 0.7], [0.9, 0.3, 1.0], (40, 3)))
     y.append(np.zeros(40, dtype=int))
     
-    # Kelas 1: Calm & Chill (Energi sedang-rendah, Sosial sedang, Fokus sedang-rendah)
-    X.append(np.random.uniform([0.3, 0.4, 0.1], [0.6, 0.8, 0.5], (40, 3)))
+    # Kelas 1: Rock / Metal (Beat density tinggi, Distorsi tinggi, Vocal prominence rendah-sedang)
+    X.append(np.random.uniform([0.7, 0.7, 0.2], [1.0, 1.0, 0.6], (40, 3)))
     y.append(np.ones(40, dtype=int))
     
-    # Kelas 2: Anxious & Stressed (Energi tinggi, Sosial tinggi, Fokus rendah-sedang)
-    X.append(np.random.uniform([0.6, 0.6, 0.2], [0.9, 1.0, 0.6], (40, 3)))
+    # Kelas 2: Jazz / Lo-Fi (Beat density rendah, Distorsi rendah, Vocal prominence sedang)
+    X.append(np.random.uniform([0.1, 0.0, 0.4], [0.4, 0.2, 0.7], (40, 3)))
     y.append(np.ones(40, dtype=int) * 2)
     
-    # Kelas 3: Exhausted & Gloomy (Energi rendah, Sosial rendah, Fokus rendah)
-    X.append(np.random.uniform([0.0, 0.0, 0.0], [0.3, 0.3, 0.3], (40, 3)))
+    # Kelas 3: EDM / Electronic (Beat density tinggi, Distorsi sedang, Vocal prominence rendah)
+    X.append(np.random.uniform([0.7, 0.3, 0.0], [1.0, 0.6, 0.3], (40, 3)))
     y.append(np.ones(40, dtype=int) * 3)
     
     X = np.vstack(X)
@@ -418,7 +418,7 @@ def generate_mood_dataset():
 @st.cache_resource
 def train_and_cache_models():
     # 1. Ambil dataset Adaline
-    _, X_adaline_train, y_adaline_train, norm_params = generate_social_battery_dataset()
+    _, X_adaline_train, y_adaline_train, norm_params = generate_music_vibe_dataset()
     
     # Latih Model 1: Adaline (η = 0.1)
     ada_model = Adaline(input_dim=4, lr=0.1)
@@ -432,7 +432,7 @@ def train_and_cache_models():
     history_05 = ada_lr_05.train(X_adaline_train, y_adaline_train, epochs=800)
     
     # 2. Ambil dataset LVQ & Latih Model 2: LVQ
-    X_lvq_train, y_lvq_train = generate_mood_dataset()
+    X_lvq_train, y_lvq_train = generate_genre_dataset()
     lvq_model = LearningVectorQuantization(input_dim=3, num_classes=4, lr_start=0.5)
     lvq_history = lvq_model.train(X_lvq_train, y_lvq_train, epochs=250)
     
@@ -456,9 +456,9 @@ cached_data = train_and_cache_models()
 # Title Banner
 st.write("""
 <div style="text-align: center; padding: clamp(15px, 4vw, 25px) 10px; border-bottom: 2px solid #ff007f; margin-bottom: 25px;">
-    <h1 style="margin: 0; font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; color: #ff007f; line-height: 1.2;">VIBESYNC: SOCIAL BATTERY & MOOD OPTIMIZER</h1>
+    <h1 style="margin: 0; font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; color: #ff007f; line-height: 1.2;">SOUNDSYNC: MUSIC VIBE & GENRE CLASSIFIER</h1>
     <p style="font-size: clamp(0.9rem, 2.5vw, 1.1rem); color: #a0aec0; margin-top: 10px; line-height: 1.4;">
-        Asisten Klasifikasi Suasana Hati & Prediksi Kelelahan Sosial Berbasis JST (Adaline & LVQ)
+        Klasifikasi Genre & Karakteristik Suara Musik Menggunakan JST Adaline dan LVQ dari Scratch
     </p>
     <span style="background-color: #ff007f; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: clamp(10px, 2vw, 11px); font-weight: bold; text-transform: uppercase;">
         Tugas Akhir Jaringan Saraf Tiruan (JST) - Adaline & LVQ
@@ -469,29 +469,29 @@ st.write("""
 # SIDEBAR: PANEL INPUT USER (LANGKAH DEMI LANGKAH)
 st.sidebar.markdown("""
 <div style="background-color: #161925; padding: 15px; border-radius: 8px; border-left: 5px solid #ff007f; margin-bottom: 20px;">
-    <h4 style="margin: 0; color: #ffffff;">LANGKAH 1: Aktivitas Sosial & Kerja</h4>
-    <small style="color: #a0aec0;">Geser parameter di bawah untuk menggambarkan aktivitas Anda hari ini.</small>
+    <h4 style="margin: 0; color: #ffffff;">LANGKAH 1: Karakteristik Lagu (Adaline)</h4>
+    <small style="color: #a0aec0;">Setel parameter teknis lagu di bawah ini.</small>
 </div>
 """, unsafe_allow_html=True)
 
 # Sidebar Inputs for Model 1 (Adaline)
-sleep_quality = st.sidebar.slider("Kualitas Tidur (0.1 = Buruk, 1.0 = Sangat Nyenyak)", min_value=0.1, max_value=1.0, value=0.7, step=0.05)
-social_hours = st.sidebar.slider("Durasi Bersosialisasi (Jam)", min_value=0.0, max_value=10.0, value=3.0, step=0.5)
-workload_tasks = st.sidebar.slider("Jumlah Tugas / Beban Kerja", min_value=1, max_value=12, value=4)
-quiet_hours = st.sidebar.slider("Durasi Me-Time / Waktu Tenang (Jam)", min_value=0.0, max_value=8.0, value=2.0, step=0.5)
+danceability = st.sidebar.slider("Tempo & Danceability (0.1 = Lambat, 1.0 = Sangat Cepat/Danceable)", min_value=0.1, max_value=1.0, value=0.7, step=0.05)
+loudness = st.sidebar.slider("Kenyaringan / Volume Loudness (dB)", min_value=-60.0, max_value=0.0, value=-12.0, step=1.0)
+acousticness = st.sidebar.slider("Acousticness (0.0 = Elektrik/Synth, 1.0 = Akustik Murni)", min_value=0.0, max_value=1.0, value=0.2, step=0.05)
+valence = st.sidebar.slider("Valence / Kegembiraan Lirik (0.0 = Melankolis, 1.0 = Sangat Ceria)", min_value=0.0, max_value=1.0, value=0.6, step=0.05)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("""
 <div style="background-color: #161925; padding: 15px; border-radius: 8px; border-left: 5px solid #00f0ff; margin-bottom: 20px;">
-    <h4 style="margin: 0; color: #ffffff;">LANGKAH 2: Kondisi Energi & Fokus</h4>
-    <small style="color: #a0aec0;">Masukkan indikator internal fisik dan mental Anda saat ini.</small>
+    <h4 style="margin: 0; color: #ffffff;">LANGKAH 2: Profil Suara Genre (LVQ)</h4>
+    <small style="color: #a0aec0;">Masukkan instrumen dan ketukan akustik lagu.</small>
 </div>
 """, unsafe_allow_html=True)
 
 # Sidebar Inputs for Model 2 (LVQ)
-physical_energy = st.sidebar.slider("Energi Fisik Saat Ini (0.0 = Habis, 1.0 = Bugar)", min_value=0.0, max_value=1.0, value=0.6, step=0.05)
-social_desire = st.sidebar.slider("Hasrat Bersosialisasi (0.0 = Malas, 1.0 = Ingin)", min_value=0.0, max_value=1.0, value=0.5, step=0.05)
-cognitive_focus = st.sidebar.slider("Tingkat Fokus Mental (0.0 = Kabur, 1.0 = Tajam)", min_value=0.0, max_value=1.0, value=0.7, step=0.05)
+beat_density = st.sidebar.slider("Kerapatan Ketukan / Beat Density (0.0 = Renggang, 1.0 = Sangat Rapat)", min_value=0.0, max_value=1.0, value=0.7, step=0.05)
+electric_distortion = st.sidebar.slider("Distorsi Elektrik / Synth Distortions (0.0 = Bersih, 1.0 = Berat)", min_value=0.0, max_value=1.0, value=0.2, step=0.05)
+vocal_prominence = st.sidebar.slider("Kemenonjolan Vokal / Vocal Prominence (0.0 = Instrumental, 1.0 = Vokal Dominan)", min_value=0.0, max_value=1.0, value=0.8, step=0.05)
 
 
 # TABS LAYOUT FOR APP SECTIONS
@@ -509,73 +509,73 @@ with tab_dashboard:
     <div style="background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: clamp(15px, 3vw, 25px); margin-bottom: 30px;">
         <h3 style="margin-top: 0; color: #ff007f; font-size: clamp(1.2rem, 3.5vw, 1.6rem);">💡 Bagaimana Cara Kerja Aplikasi Ini?</h3>
         <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin-bottom: 15px; color: #a0aec0;">
-            Aplikasi ini memantau tingkat kesiapan mental dan suasana hati Anda menggunakan dua model <strong>Jaringan Saraf Tiruan (JST)</strong> yang berjalan secara real-time berdasarkan input yang Anda masukkan di panel kiri:
+            Aplikasi ini mendeteksi karakteristik serta genre lagu secara otomatis menggunakan dua model <strong>Jaringan Saraf Tiruan (JST)</strong> yang berjalan secara real-time berdasarkan input yang Anda masukkan di panel kiri:
         </p>
         <div style="display: flex; gap: 15px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 250px; background-color: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border-left: 4px solid #ff007f;">
-                <strong style="color: #ffffff; font-size: clamp(0.9rem, 2.5vw, 1.05rem);">1. Prediksi Social Battery (Model Adaline)</strong>
+                <strong style="color: #ffffff; font-size: clamp(0.9rem, 2.5vw, 1.05rem);">1. Prediksi Vibe Karakter (Model Adaline)</strong>
                 <p style="font-size: clamp(0.8rem, 2.2vw, 0.9rem); margin-top: 5px; color: #a0aec0; line-height: 1.4;">
-                    Memprediksi apakah kapasitas bersosialisasi Anda dalam kondisi <strong>Energized</strong> atau sudah <strong>Drained</strong>. Model ini belajar memisahkan kedua kondisi tersebut berdasarkan data aktivitas harian Anda.
+                    Memprediksi apakah lagu tergolong bersemangat/cepat (<strong>Energetic & Upbeat</strong>) atau lambat/menenangkan (<strong>Calm & Relaxing</strong>) berdasarkan tempo, volume, kemurnian akustik, dan valensi emosi.
                 </p>
             </div>
             <div style="flex: 1; min-width: 250px; background-color: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border-left: 4px solid #00f0ff;">
-                <strong style="color: #ffffff; font-size: clamp(0.9rem, 2.5vw, 1.05rem);">2. Klasifikasi Mood Vibe (Model LVQ)</strong>
+                <strong style="color: #ffffff; font-size: clamp(0.9rem, 2.5vw, 1.05rem);">2. Klasifikasi Genre Musik (Model LVQ)</strong>
                 <p style="font-size: clamp(0.8rem, 2.2vw, 0.9rem); margin-top: 5px; color: #a0aec0; line-height: 1.4;">
-                    Mendeteksi suasana hati Anda ke dalam salah satu dari 4 kategori mood utama. Model ini mencocokkan kondisi energi fisik, hasrat sosial, dan tingkat fokus Anda dengan profil suasana hati ideal.
+                    Mendeteksi genre lagu ke dalam salah satu dari 4 kategori utama (Pop/Dance, Rock/Metal, Jazz/Lo-Fi, EDM) dengan mencocokkan densitas beat, distorsi elektrik, dan kemenonjolan vokal.
                 </p>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.write("### Hasil Prediksi Hari Ini")
+    st.write("### Hasil Klasifikasi Lagu Hari Ini")
     
     col1, col2 = st.columns(2)
     
-    # Model 1 (Adaline): Evaluasi Social Battery
+    # Model 1 (Adaline): Evaluasi Karakteristik Vibe
     with col1:
-        st.write("#### Prediksi Status Social Battery (Adaline)")
+        st.write("#### Prediksi Karakteristik Vibe (Adaline)")
         
         # Jembatan Normalisasi untuk input real-time
         params = cached_data["norm_params"]
-        norm_sleep = sleep_quality
-        norm_social = social_hours / 10.0
-        norm_workload = (workload_tasks - params['workload_min']) / (params['workload_max'] - params['workload_min'])
-        norm_quiet = quiet_hours / 8.0
+        norm_dance = danceability
+        norm_loud = (loudness - params['loud_min']) / (params['loud_max'] - params['loud_min'])
+        norm_acoustic = acousticness
+        norm_valence = valence
         
-        input_adaline = np.array([[norm_sleep, norm_social, norm_workload, norm_quiet]])
+        input_adaline = np.array([[norm_dance, norm_loud, norm_acoustic, norm_valence]])
         
         ada_model = cached_data["ada_model"]
         raw_score = ada_model.forward(input_adaline)[0][0]
         prediction_state = ada_model.predict(input_adaline)[0][0]
         
         # Penskalaan nilai mentah [-1.0 s/d 1.0] ke [0% s/d 100%]
-        battery_pct = int(np.clip((raw_score + 1.0) / 2.0 * 100.0, 0, 100))
+        energy_pct = int(np.clip((raw_score + 1.0) / 2.0 * 100.0, 0, 100))
         
         if prediction_state == 1:
             st.markdown(f"""
-            <div class="card-battery-high" style="padding: clamp(15px, 3vw, 20px);">
-                <h2 style="margin: 0; color: #00e676; font-size: clamp(1.3rem, 4vw, 1.7rem);">ENERGIZED (+1)</h2>
-                <h3 style="margin: 5px 0 12px 0; color: #ffffff; font-size: clamp(1.0rem, 3vw, 1.3rem);">Social Battery Anda: {battery_pct}%</h3>
-                <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin: 0; line-height: 1.4;">Status baterai sosial Anda saat ini aman. Anda memiliki energi yang cukup untuk menghadiri pertemuan sosial, berkolaborasi, atau melanjutkan pekerjaan yang padat.</p>
+            <div class="card-vibe-high" style="padding: clamp(15px, 3vw, 20px);">
+                <h2 style="margin: 0; color: #00e676; font-size: clamp(1.3rem, 4vw, 1.7rem);">ENERGETIC & UPBEAT (+1)</h2>
+                <h3 style="margin: 5px 0 12px 0; color: #ffffff; font-size: clamp(1.0rem, 3vw, 1.3rem);">Energy Level Lagu: {energy_pct}%</h3>
+                <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin: 0; line-height: 1.4;">Karakteristik lagu ini berenergi tinggi, upbeat, dan dinamis. Sangat cocok didengarkan untuk membakar semangat saat berolahraga, pesta, atau bekerja aktif.</p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
-            <div class="card-battery-low" style="padding: clamp(15px, 3vw, 20px);">
-                <h2 style="margin: 0; color: #ff1744; font-size: clamp(1.3rem, 4vw, 1.7rem);">DRAINED (-1)</h2>
-                <h3 style="margin: 5px 0 12px 0; color: #ffffff; font-size: clamp(1.0rem, 3vw, 1.3rem);">Social Battery Anda: {battery_pct}%</h3>
-                <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin: 0; line-height: 1.4;">Status baterai sosial Anda terkuras. Disarankan untuk membatasi interaksi sosial luar, luangkan waktu untuk me-time, dan lakukan pemulihan mental malam ini.</p>
+            <div class="card-vibe-low" style="padding: clamp(15px, 3vw, 20px);">
+                <h2 style="margin: 0; color: #ff1744; font-size: clamp(1.3rem, 4vw, 1.7rem);">CALM & RELAXING (-1)</h2>
+                <h3 style="margin: 5px 0 12px 0; color: #ffffff; font-size: clamp(1.0rem, 3vw, 1.3rem);">Energy Level Lagu: {energy_pct}%</h3>
+                <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin: 0; line-height: 1.4;">Karakteristik lagu ini damai, tenang, dan rileks. Sangat cocok didengarkan untuk meredakan ketegangan, belajar, tidur, atau membaca buku.</p>
             </div>
             """, unsafe_allow_html=True)
             
-        st.progress(battery_pct / 100.0)
+        st.progress(energy_pct / 100.0)
         
         # Penjelasan Keputusan UX
         st.markdown(f"""
         <div style="background-color: rgba(255, 255, 255, 0.01); border: 1px dashed rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 13px;">
             <strong style="color: #ffffff;">Bagaimana model mengambil keputusan ini?</strong><br/>
-            Model Adaline mengalikan nilai input harian Anda dengan bobot latihnya secara linear. Hasil akumulasinya adalah <strong>{raw_score:.3f}</strong>. Karena nilai ini {"lebih besar dari atau sama dengan 0" if raw_score >= 0 else "kurang dari 0"}, sistem mengklasifikasikan Anda sebagai <strong>{"ENERGIZED" if prediction_state == 1 else "DRAINED"}</strong>.
+            Model Adaline mengalikan nilai parameter teknis lagu Anda dengan bobot latihnya secara linear. Hasil akumulasinya adalah <strong>{raw_score:.3f}</strong>. Karena nilai ini {"lebih besar dari atau sama dengan 0" if raw_score >= 0 else "kurang dari 0"}, sistem mengklasifikasikan lagu ini sebagai <strong>{"ENERGETIC" if prediction_state == 1 else "CALM"}</strong>.
         </div>
         """, unsafe_allow_html=True)
 
@@ -583,33 +583,33 @@ with tab_dashboard:
         st.write("")
         st.write("**Detail Parameter Input & Hasil Normalisasi:**")
         df_adaline = pd.DataFrame({
-            "Parameter": ["Kualitas Tidur", "Jam Sosial", "Tugas Kerja", "Jam Me-time"],
-            "Nilai Input": [f"{sleep_quality:.2f}", f"{social_hours} jam", f"{workload_tasks} tugas", f"{quiet_hours} jam"],
-            "Nilai Normalisasi (Skala 0-1)": [f"{norm_sleep:.3f}", f"{norm_social:.3f}", f"{norm_workload:.3f}", f"{norm_quiet:.3f}"]
+            "Parameter": ["Tempo / Danceability", "Kenyaringan (Loudness)", "Acousticness", "Valence (Keceriaan)"],
+            "Nilai Input": [f"{danceability:.2f}", f"{loudness} dB", f"{acousticness:.2f}", f"{valence:.2f}"],
+            "Nilai Normalisasi (Skala 0-1)": [f"{norm_dance:.3f}", f"{norm_loud:.3f}", f"{norm_acoustic:.3f}", f"{norm_valence:.3f}"]
         })
         st.table(df_adaline)
 
-    # Model 2 (LVQ): Klasifikasi Mood Vibe
+    # Model 2 (LVQ): Klasifikasi Genre Musik
     with col2:
-        st.write("#### Klasifikasi Mood Vibe (LVQ)")
+        st.write("#### Klasifikasi Genre Musik (LVQ)")
         
-        input_lvq = np.array([[physical_energy, social_desire, cognitive_focus]])
+        input_lvq = np.array([[beat_density, electric_distortion, vocal_prominence]])
         lvq_model = cached_data["lvq_model"]
         predicted_class = lvq_model.predict(input_lvq)[0]
         
-        moods = {
-            0: {"title": "Energetic & Focused", "color": "#ffea00", "desc": "Tingkat energi dan konsentrasi Anda optimal. Waktu terbaik untuk menyelesaikan tugas sulit, coding, atau belajar materi baru."},
-            1: {"title": "Calm & Chill", "color": "#00e5ff", "desc": "Kondisi emosi santai dan damai. Cocok untuk membaca buku, mendengarkan musik lambat, atau berdiskusi santai."},
-            2: {"title": "Anxious & Stressed", "color": "#ff9100", "desc": "Ada ketegangan internal yang tinggi. Cobalah untuk mengambil napas dalam-dalam, kurangi asupan kafein, dan hindari konflik sosial sementara waktu."},
-            3: {"title": "Exhausted & Gloomy", "color": "#d500f9", "desc": "Kelelahan fisik dan mental yang menumpuk. Rekomendasi terbaik adalah menghentikan aktivitas berat dan segera tidur siang atau istirahat total."}
+        genres = {
+            0: {"title": "Pop / Dance", "color": "#ffea00", "desc": "Ketukan bersemangat yang catchy dengan vokal dominan dan bersih. Cocok untuk dinikmati di stasiun radio, pesta pop, atau playlist harian santai."},
+            1: {"title": "Rock / Metal", "color": "#00e5ff", "desc": "Suara berkarakter keras dengan distorsi gitar elektrik yang kencang dan ketukan drum yang solid. Terbaik didengarkan saat ingin fokus memacu adrenalin."},
+            2: {"title": "Jazz / Lo-Fi", "color": "#ff9100", "desc": "Ketukan santai yang lambat dengan melodi instrumen alami (piano/trompet) dan vokal bersih yang hangat. Cocok untuk belajar, rileksasi, dan teman minum kopi."},
+            3: {"title": "EDM / Electronic", "color": "#d500f9", "desc": "Synthesizer elektrik yang dominan dengan vokal minim/instrumental dan beat bas elektronik yang padat. Musik lantai dansa yang penuh energi sintetis."}
         }
         
-        current_mood = moods[predicted_class]
+        current_genre = genres[predicted_class]
         
         st.markdown(f"""
-        <div style="background-color: rgba(255, 255, 255, 0.03); border: 2px solid {current_mood['color']}; border-radius: 16px; padding: clamp(15px, 3vw, 20px); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);">
-            <h2 style="margin: 0; color: {current_mood['color']}; font-size: clamp(1.3rem, 4vw, 1.7rem);">{current_mood['title'].upper()}</h2>
-            <p style="margin-top: 10px; font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin-bottom: 0; line-height: 1.4;">{current_mood['desc']}</p>
+        <div style="background-color: rgba(255, 255, 255, 0.03); border: 2px solid {current_genre['color']}; border-radius: 16px; padding: clamp(15px, 3vw, 20px); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);">
+            <h2 style="margin: 0; color: {current_genre['color']}; font-size: clamp(1.3rem, 4vw, 1.7rem);">{current_genre['title'].upper()}</h2>
+            <p style="margin-top: 10px; font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin-bottom: 0; line-height: 1.4;">{current_genre['desc']}</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -617,29 +617,29 @@ with tab_dashboard:
         st.markdown(f"""
         <div style="background-color: rgba(255, 255, 255, 0.01); border: 1px dashed rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: clamp(0.8rem, 2.2vw, 0.85rem);">
             <strong style="color: #ffffff;">Bagaimana model mengambil keputusan ini?</strong><br/>
-            Model LVQ membandingkan koordinat input Anda <strong>[{physical_energy:.2f}, {social_desire:.2f}, {cognitive_focus:.2f}]</strong> dengan 4 pusat profil mood (prototipe). Profil mood <strong>{current_mood['title']}</strong> dideteksi memiliki jarak Euclidean terdekat dengan posisi Anda saat ini.
+            Model LVQ membandingkan koordinat akustik input Anda <strong>[{beat_density:.2f}, {electric_distortion:.2f}, {vocal_prominence:.2f}]</strong> dengan 4 pusat koordinat genre ideal (prototipe). Genre <strong>{current_genre['title']}</strong> dideteksi memiliki jarak Euclidean terdekat dengan parameter lagu Anda saat ini.
         </div>
         """, unsafe_allow_html=True)
         
         st.write("")
-        st.write("#### Rekomendasi Aktivitas Berdasarkan Vibe")
-        st.write("Berdasarkan suasana hati yang dideteksi, aktivitas harian berikut dipetakan secara real-time ke mood Anda saat ini:")
+        st.write("#### Contoh Lagu yang Mirip Karakteristiknya")
+        st.write("Berikut adalah lagu-lagu legendaris yang memiliki kluster genre serupa secara real-time di Spotify/Apple Music:")
         
-        # Cari BMU untuk beberapa aktivitas contoh
-        sample_activities = [
-            {"name": "Coding & Belajar Intensif", "v": [0.8, 0.2, 0.95]},
-            {"name": "Diskusi Kelompok / Rapat", "v": [0.7, 0.8, 0.75]},
-            {"name": "Menonton Film / Netflix", "v": [0.3, 0.4, 0.2]},
-            {"name": "Bermain Futsal / Gym", "v": [0.95, 0.7, 0.3]},
-            {"name": "Tidur & Istirahat Total", "v": [0.05, 0.0, 0.05]}
+        # Cari BMU untuk beberapa lagu contoh
+        sample_tracks = [
+            {"name": "Blinding Lights - The Weeknd", "v": [0.8, 0.1, 0.85]},
+            {"name": "Master of Puppets - Metallica", "v": [0.95, 0.95, 0.4]},
+            {"name": "Come Away With Me - Norah Jones", "v": [0.2, 0.05, 0.7]},
+            {"name": "Animals - Martin Garrix", "v": [0.9, 0.6, 0.05]},
+            {"name": "Bohemian Rhapsody - Queen", "v": [0.65, 0.75, 0.8]}
         ]
         
-        for act in sample_activities:
-            bmu_idx, _ = lvq_model.find_bmu(np.array(act["v"]))
-            vibe_info = moods[bmu_idx]
+        for track in sample_tracks:
+            bmu_idx, _ = lvq_model.find_bmu(np.array(track["v"]))
+            genre_info = genres[bmu_idx]
             st.markdown(f"""
-            <div class="vibe-badge" style="border-left: 4px solid {vibe_info['color']} !important; padding: clamp(10px, 2.5vw, 15px); font-size: clamp(0.85rem, 2.4vw, 0.95rem);">
-                <strong>{act['name']}</strong> → <span style="color: {vibe_info['color']}; font-weight: bold;">{vibe_info['title']}</span>
+            <div class="track-badge" style="border-left: 4px solid {genre_info['color']} !important; padding: clamp(10px, 2.5vw, 15px); font-size: clamp(0.85rem, 2.4vw, 0.95rem);">
+                <strong>{track['name']}</strong> → <span style="color: {genre_info['color']}; font-weight: bold;">{genre_info['title']}</span>
             </div>
             """, unsafe_allow_html=True)
 
@@ -657,19 +657,19 @@ with tab_charts:
     params = cached_data["norm_params"]
     
     # Hitung normalisasi input real-time lokal untuk plotting
-    norm_sleep_val = sleep_quality
-    norm_social_val = social_hours / 10.0
-    norm_workload_val = (workload_tasks - params['workload_min']) / (params['workload_max'] - params['workload_min'])
-    norm_quiet_val = quiet_hours / 8.0
+    norm_dance_val = danceability
+    norm_loud_val = (loudness - params['loud_min']) / (params['loud_max'] - params['loud_min'])
+    norm_acoustic_val = acousticness
+    norm_valence_val = valence
     
-    input_adaline = np.array([[norm_sleep_val, norm_social_val, norm_workload_val, norm_quiet_val]])
+    input_adaline = np.array([[norm_dance_val, norm_loud_val, norm_acoustic_val, norm_valence_val]])
     current_prediction_state = ada_model.predict(input_adaline)[0][0]
 
     st.markdown("""
     <div style="background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px; margin-bottom: 25px;">
         <h4 style="margin-top:0; color: #ff007f;">📊 Panduan Membaca Grafik Visualisasi</h4>
         <p style="font-size: 13.5px; margin-bottom: 0; color: #a0aec0;">
-            Tab ini memaparkan visualisasi performa latih model dan hubungan posisi input Anda dengan batas klasifikasi. Kolom kiri memvisualisasikan model <strong>Adaline</strong> (baterai sosial), sedangkan kolom kanan memvisualisasikan model <strong>LVQ</strong> (mood).
+            Tab ini memaparkan visualisasi performa latih model dan hubungan posisi input lagu Anda dengan batas klasifikasi. Kolom kiri memvisualisasikan model <strong>Adaline</strong> (karakteristik vibe), sedangkan kolom kanan memvisualisasikan model <strong>LVQ</strong> (genre musik).
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -721,42 +721,42 @@ with tab_charts:
         plt.close(fig_comp)
 
         st.write("#### Posisi Real-time vs Decision Boundary")
-        st.caption("Plot 2D di bawah ini memproyeksikan data training Kualitas Tidur (x-axis) vs Beban Kerja (y-axis). Garis merah muda adalah Batas Keputusan (Decision Boundary). Simbol bintang melambangkan posisi Anda secara real-time. Gerakkan slider Kualitas Tidur atau Beban Kerja di sidebar untuk melihat pergeseran posisi bintang.")
+        st.caption("Plot 2D di bawah ini memproyeksikan data training Tempo/Danceability (x-axis) vs Acousticness (y-axis). Garis merah muda adalah Batas Keputusan (Decision Boundary). Simbol bintang melambangkan posisi lagu Anda secara real-time. Gerakkan slider di sidebar untuk melihat pergeseran posisi bintang.")
         
         # Ambil bobot Adaline
         W = ada_model.W.flatten()
         b = ada_model.b[0][0]
         
-        # Gambar plot 2D: Sleep Quality (X) vs Workload Tasks (Y)
+        # Gambar plot 2D: Danceability (X) vs Acousticness (Y)
         fig_bound, ax_bound = plt.subplots(figsize=(6, 4), facecolor='#0d111e')
         ax_bound.set_facecolor('#0d111e')
         
         # Plot training data points
-        _, X_adaline_norm, y_adaline_val, _ = generate_social_battery_dataset()
-        energized_mask = (y_adaline_val == 1).flatten()
-        drained_mask = (y_adaline_val == -1).flatten()
+        _, X_adaline_norm, y_adaline_val, _ = generate_music_vibe_dataset()
+        energetic_mask = (y_adaline_val == 1).flatten()
+        calm_mask = (y_adaline_val == -1).flatten()
         
-        ax_bound.scatter(X_adaline_norm[energized_mask, 0], X_adaline_norm[energized_mask, 2], color='#00e676', alpha=0.3, label='Data Energized (+1)', s=15)
-        ax_bound.scatter(X_adaline_norm[drained_mask, 0], X_adaline_norm[drained_mask, 2], color='#ff1744', alpha=0.3, label='Data Drained (-1)', s=15)
+        ax_bound.scatter(X_adaline_norm[energetic_mask, 0], X_adaline_norm[energetic_mask, 2], color='#00e676', alpha=0.3, label='Data Energetic (+1)', s=15)
+        ax_bound.scatter(X_adaline_norm[calm_mask, 0], X_adaline_norm[calm_mask, 2], color='#ff1744', alpha=0.3, label='Data Calm (-1)', s=15)
         
         # Hitung garis batas keputusan: W[0]*x1 + W[1]*x2 + W[2]*x3 + W[3]*x4 + b = 0
-        # Di mana x2 (social) dan x4 (quiet) adalah posisi slider saat ini.
-        # Maka x3 (workload) = -(W[0]*x1 + W[1]*x2 + W[3]*x4 + b) / W[2]
+        # Di mana x2 (loudness) dan x4 (valence) adalah posisi slider saat ini.
+        # Maka x3 (acousticness) = -(W[0]*x1 + W[1]*x2 + W[3]*x4 + b) / W[2]
         x1_vals = np.linspace(0, 1.0, 100)
         if abs(W[2]) > 1e-5:
-            x3_vals = -(W[0] * x1_vals + W[1] * norm_social_val + W[3] * norm_quiet_val + b) / W[2]
+            x3_vals = -(W[0] * x1_vals + W[1] * norm_loud_val + W[3] * norm_valence_val + b) / W[2]
             ax_bound.plot(x1_vals, x3_vals, color='#ff007f', linewidth=2, label='Decision Boundary (net=0)')
             ax_bound.fill_between(x1_vals, -0.2, x3_vals, color='#ff1744', alpha=0.05)
             ax_bound.fill_between(x1_vals, x3_vals, 1.2, color='#00e676', alpha=0.05)
         
         # Plot posisi pengguna saat ini
         color_pos = '#00e676' if current_prediction_state == 1 else '#ff1744'
-        ax_bound.scatter(norm_sleep_val, norm_workload_val, color=color_pos, edgecolor='white', s=200, marker='*', label='Posisi Anda', zorder=5)
+        ax_bound.scatter(norm_dance_val, norm_acoustic_val, color=color_pos, edgecolor='white', s=200, marker='*', label='Posisi Anda', zorder=5)
         
         ax_bound.set_xlim(-0.05, 1.05)
         ax_bound.set_ylim(-0.05, 1.05)
-        ax_bound.set_xlabel("Normalized Kualitas Tidur (x1)")
-        ax_bound.set_ylabel("Normalized Beban Kerja (x3)")
+        ax_bound.set_xlabel("Normalized Tempo / Danceability (x1)")
+        ax_bound.set_ylabel("Normalized Acousticness (x3)")
         ax_bound.tick_params(colors='white')
         ax_bound.xaxis.label.set_color('white')
         ax_bound.yaxis.label.set_color('white')
@@ -790,20 +790,20 @@ with tab_charts:
         
         # Prototypes Visualizer (DataFrame of Prototypes)
         st.write("#### Koordinat Vektor Prototipe LVQ (Weights)")
-        st.caption("Tabel di bawah memuat bobot latih akhir (koordinat ideal) dari 4 pusat kelas mood di ruang input:")
+        st.caption("Tabel di bawah memuat bobot latih akhir (koordinat ideal) dari 4 pusat genre musik di ruang input:")
         
         proto_df = pd.DataFrame(
             lvq_model.prototypes,
-            columns=["Energi Fisik", "Desir Sosial", "Fokus Mental"],
-            index=["Kelas 0: Energetic & Focused", "Kelas 1: Calm & Chill", "Kelas 2: Anxious & Stressed", "Kelas 3: Exhausted & Gloomy"]
+            columns=["Beat Density", "Guitar Distortions", "Vocal Prominence"],
+            index=["Kelas 0: Pop / Dance", "Kelas 1: Rock / Metal", "Kelas 2: Jazz / Lo-Fi", "Kelas 3: EDM / Electronic"]
         )
         st.dataframe(proto_df.style.background_gradient(cmap="plasma", axis=None))
 
         st.write("#### Pemetaan Vektor Prototipe & Posisi Anda (3D)")
-        st.caption("Ruang 3D di bawah ini memvisualisasikan posisi 4 prototipe mood (bola berwarna) dan posisi Anda saat ini (simbol X berwarna merah muda). Garis penghubung lurus tebal menunjukkan prototipe terdekat (BMU) yang memenangkan klasifikasi input Anda.")
+        st.caption("Ruang 3D di bawah ini memvisualisasikan posisi 4 prototipe genre musik (bola berwarna) dan posisi lagu Anda saat ini (simbol X berwarna merah muda). Garis penghubung lurus tebal menunjukkan prototipe terdekat (BMU) yang memenangkan klasifikasi.")
         
         # Data input saat ini
-        user_vec = np.array([physical_energy, social_desire, cognitive_focus])
+        user_vec = np.array([beat_density, electric_distortion, vocal_prominence])
         
         fig_3d = plt.figure(figsize=(6, 5), facecolor='#0d111e')
         ax_3d = fig_3d.add_subplot(111, projection='3d', facecolor='#0d111e')
@@ -816,7 +816,7 @@ with tab_charts:
         # Plot Prototypes
         protos = lvq_model.prototypes
         colors_3d = ['#ffea00', '#00e5ff', '#ff9100', '#d500f9']
-        labels_3d = ['Energetic & Focused', 'Calm & Chill', 'Anxious & Stressed', 'Exhausted & Gloomy']
+        labels_3d = ['Pop / Dance', 'Rock / Metal', 'Jazz / Lo-Fi', 'EDM / Electronic']
         
         for idx, proto in enumerate(protos):
             ax_3d.scatter(proto[0], proto[1], proto[2], color=colors_3d[idx], s=150, depthshade=False, label=labels_3d[idx], edgecolor='white', linewidth=1.5)
@@ -833,9 +833,9 @@ with tab_charts:
             linecolor = colors_3d[idx] if is_bmu else 'gray'
             ax_3d.plot([user_vec[0], proto[0]], [user_vec[1], proto[1]], [user_vec[2], proto[2]], linestyle=linestyle, linewidth=linewidth, color=linecolor, alpha=0.8)
             
-        ax_3d.set_xlabel("Energi Fisik", color='white')
-        ax_3d.set_ylabel("Desir Sosial", color='white')
-        ax_3d.set_zlabel("Fokus Mental", color='white')
+        ax_3d.set_xlabel("Beat Density", color='white')
+        ax_3d.set_ylabel("Guitar Distortions", color='white')
+        ax_3d.set_zlabel("Vocal Prominence", color='white')
         ax_3d.tick_params(colors='white')
         ax_3d.xaxis.label.set_color('white')
         ax_3d.yaxis.label.set_color('white')
@@ -845,4 +845,3 @@ with tab_charts:
         
         st.pyplot(fig_3d)
         plt.close(fig_3d)
-
