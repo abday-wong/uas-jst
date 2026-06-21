@@ -507,7 +507,7 @@ with tab_dashboard:
     # Onboarding Guide for User
     st.markdown("""
     <div style="background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: clamp(15px, 3vw, 25px); margin-bottom: 30px;">
-        <h3 style="margin-top: 0; color: #ff007f; font-size: clamp(1.2rem, 3.5vw, 1.6rem);">💡 Bagaimana Cara Kerja Aplikasi Ini?</h3>
+        <h3 style="margin-top: 0; color: #ff007f; font-size: clamp(1.2rem, 3.5vw, 1.6rem);"> Bagaimana Cara Kerja Aplikasi Ini?</h3>
         <p style="font-size: clamp(0.85rem, 2.5vw, 0.95rem); margin-bottom: 15px; color: #a0aec0;">
             Aplikasi ini mendeteksi karakteristik serta genre lagu secara otomatis menggunakan dua model <strong>Jaringan Saraf Tiruan (JST)</strong> yang berjalan secara real-time berdasarkan input yang Anda masukkan di panel kiri:
         </p>
@@ -667,7 +667,7 @@ with tab_charts:
 
     st.markdown("""
     <div style="background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px; margin-bottom: 25px;">
-        <h4 style="margin-top:0; color: #ff007f;">📊 Panduan Membaca Grafik Visualisasi</h4>
+        <h4 style="margin-top:0; color: #ff007f;"> Panduan Membaca Grafik Visualisasi</h4>
         <p style="font-size: 13.5px; margin-bottom: 0; color: #a0aec0;">
             Tab ini memaparkan visualisasi performa latih model dan hubungan posisi input lagu Anda dengan batas klasifikasi. Kolom kiri memvisualisasikan model <strong>Adaline</strong> (karakteristik vibe), sedangkan kolom kanan memvisualisasikan model <strong>LVQ</strong> (genre musik).
         </p>

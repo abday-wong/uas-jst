@@ -1,12 +1,12 @@
-# 📚 LAPORAN TUGAS AKHIR / UJIAN AKHIR SEMESTER (UAS)
+#  LAPORAN TUGAS AKHIR / UJIAN AKHIR SEMESTER (UAS)
 # JARINGAN SARAF TIRUAN (JST)
 
-## 🌟 SoundSync: Music Vibe & Genre Classifier
+##  SoundSync: Music Vibe & Genre Classifier
 > **Aplikasi Asisten Deteksi Genre & Karakteristik Suara Musik Berbasis Jaringan Saraf Tiruan (Adaline & LVQ) yang Dibangun Secara Mandiri (From Scratch)**
 
 ---
 
-### 👤 Identitas Mahasiswa
+###  Identitas Mahasiswa
 * **Nama Lengkap:** Muhammad Abday Abdul Hafidz
 * **NIM:** 1123150093
 * **Kelas:** TI-23-SE-1
@@ -16,7 +16,7 @@
 
 ---
 
-## 📖 DAFTAR ISI
+##  DAFTAR ISI
 1. [Latar Belakang & Deskripsi Kasus](#-bab-i-latar-belakang--deskripsi-kasus)
 2. [Landasan Teori & Arsitektur JST](#-bab-ii-landasan-teori--arsitektur-jst)
 3. [Metodologi & Contoh Perhitungan Manual](#-bab-iii-metodologi--contoh-perhitungan-manual)
@@ -26,7 +26,7 @@
 
 ---
 
-## 📂 BAB I: LATAR BELAKANG & DESKRIPSI KASUS
+##  BAB I: LATAR BELAKANG & DESKRIPSI KASUS
 
 ### 1.1 Latar Belakang Masalah
 Dalam industri musik modern dan rekayasa perangkat lunak audio, pengenalan karakteristik dan genre lagu secara otomatis merupakan komponen penting bagi sistem rekomendasi (*music recommendation engines*). Mengklasifikasikan lagu secara manual membutuhkan waktu yang sangat lama dan bersifat subjektif. Oleh karena itu, diperlukan pendekatan otomatisasi menggunakan kecerdasan buatan untuk menganalisis parameter audio secara objektif.
@@ -37,7 +37,7 @@ Proyek **SoundSync** dirancang untuk menjawab kebutuhan ini dengan mengombinasik
 
 ---
 
-## 🛠️ BAB II: LANDASAN TEORI & ARSITEKTUR JST
+## ️ BAB II: LANDASAN TEORI & ARSITEKTUR JST
 
 ### 2.1 Model 1: Adaline (Adaptive Linear Neuron)
 Adaline adalah jaringan saraf lapis tunggal yang menggunakan fungsi aktivasi linear selama pelatihan dan menerapkan fungsi ambang batas bipolar hanya pada penarikan kesimpulan klasifikasi akhir. Pelatihan Adaline didasarkan pada **Aturan Delta (Delta Rule)** untuk meminimalkan Mean Squared Error (MSE).
@@ -145,7 +145,7 @@ graph TD
 
 ---
 
-## 📐 BAB III: METODOLOGI & CONTOH PERHITUNGAN MANUAL
+##  BAB III: METODOLOGI & CONTOH PERHITUNGAN MANUAL
 
 ### 3.1 Dataset & Normalisasi
 Model dilatih menggunakan dataset sintetis karakteristik akustik lagu:
@@ -220,7 +220,7 @@ $$W_0^{(baru)} = [0.6, 0.2, 0.7] + 0.5 \cdot ([0.7, 0.3, 0.8] - [0.6, 0.2, 0.7])
 
 ---
 
-## 📈 BAB IV: IMPLEMENTASI SISTEM & HASIL ANALISIS PARAMETER
+##  BAB IV: IMPLEMENTASI SISTEM & HASIL ANALISIS PARAMETER
 
 ### 4.1 Deskripsi Fitur Dashboard Utama
 * **Interactive Sidebar:** Menyediakan slider parameter teknis dan akustik lagu secara dinamis.
@@ -243,7 +243,7 @@ Model Adaline dilatih dengan tiga variasi nilai $\eta$ untuk menganalisis konver
 
 ---
 
-## 🚀 BAB V: PANDUAN PENGGUNAAN (INSTALASI & EKSEKUSI)
+##  BAB V: PANDUAN PENGGUNAAN (INSTALASI & EKSEKUSI)
 
 ### 5.1 Prasyarat Sistem
 * Python versi 3.8 ke atas terinstal di komputer.
@@ -269,7 +269,7 @@ Aplikasi akan otomatis terbuka pada alamat web: **`http://localhost:8501`**
 
 ---
 
-## 📝 BAB VI: KESIMPULAN & SARAN
+##  BAB VI: KESIMPULAN & SARAN
 
 ### 6.1 Kesimpulan
 1. Model **Adaline** berhasil mengklasifikasikan karakteristik vibe musik (*Energetic* vs *Calm*) secara linear dengan menghitung kombinasi tertimbang dari tempo, volume, kemurnian akustik, dan valensi.

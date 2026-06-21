@@ -1,10 +1,10 @@
-# 🧠 SoundSync: Music Vibe & Genre Classifier - Panduan & Pembahasan Matematika
+#  SoundSync: Music Vibe & Genre Classifier - Panduan & Pembahasan Matematika
 
 Dokumen ini berisi panduan menjalankan aplikasi dan penjelasan matematis lengkap untuk laporan Bab III dalam Bahasa Indonesia dengan studi kasus klasifikasi karakteristik dan genre musik.
 
 ---
 
-## 🚀 1. Petunjuk Menjalankan Aplikasi
+##  1. Petunjuk Menjalankan Aplikasi
 
 Ikuti langkah-langkah di bawah ini untuk menginstal dependensi dan menjalankan aplikasi dashboard **SoundSync**:
 
@@ -37,7 +37,7 @@ Aplikasi secara otomatis akan terbuka di peramban web Anda pada alamat `http://l
 
 ---
 
-## 📝 2. Konsep Aplikasi & Integrasi Model JST
+##  2. Konsep Aplikasi & Integrasi Model JST
 
 Aplikasi **SoundSync** memadukan dua jenis algoritma JST yang dibangun secara manual (*from scratch*) menggunakan **NumPy**:
 1. **Model 1: Adaline (Adaptive Linear Neuron)**
@@ -51,7 +51,7 @@ Aplikasi **SoundSync** memadukan dua jenis algoritma JST yang dibangun secara ma
 
 ---
 
-## 📐 3. Pembahasan Matematika Bab III: Perhitungan Manual (Bahasa Indonesia)
+##  3. Pembahasan Matematika Bab III: Perhitungan Manual (Bahasa Indonesia)
 
 Berikut adalah lampiran perhitungan manual satu langkah perambatan maju (*Forward Pass*) dan satu langkah pembaruan bobot (*Weight Update*) untuk kedua model:
 
