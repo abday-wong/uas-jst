@@ -325,10 +325,12 @@ class LearningVectorQuantization:
                 else:
                     self.prototypes[bmu_idx] -= lr * (x - self.prototypes[bmu_idx])
             
-            # Hitung Classification Error di akhir epoch
-            preds = self.predict(X)
-            accuracy = np.mean(preds == y)
-            error_history.append(1.0 - accuracy)
+            # Hitung Classification Error (tiap 5 epoch agar cepat)
+            if epoch == 0 or epoch % 5 == 0 or epoch == epochs - 1:
+                preds = self.predict(X)
+                accuracy = np.mean(preds == y)
+                current_error = 1.0 - accuracy
+            error_history.append(current_error)
             
         return error_history
 
@@ -421,6 +423,7 @@ def generate_genre_dataset():
 # STREAMLIT CACHED TRAINING EXECUTION
 # ==============================================================================
 
+@st.cache_resource
 def train_and_cache_models():
     # 1. Ambil dataset Adaline
     _, X_adaline_train, y_adaline_train, norm_params = generate_music_vibe_dataset()
