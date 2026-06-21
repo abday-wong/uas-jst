@@ -301,6 +301,12 @@ class LearningVectorQuantization:
         """
         Melatih vektor prototipe LVQ menggunakan supervised clustering.
         """
+        # Inisialisasi vektor prototipe berdasarkan rata-rata (mean) dari data tiap kelas
+        for c in range(self.num_classes):
+            class_samples = X[y == c]
+            if len(class_samples) > 0:
+                self.prototypes[c] = np.mean(class_samples, axis=0)
+
         error_history = []
         
         for epoch in range(epochs):
